@@ -96,6 +96,43 @@ run = [ "npm install",
 	"npm run release"
         ]
 
+######################## DOCKER ########################
+
+[tasks."docker"]
+# doesnt work because it is interactif
+description = "build all docker images"
+depends = ["docker:ldns","docker:engine","docker:cli","docker:backend","docker:gui"]
+
+[tasks."docker:ldns"]
+description = "build zonemaster-ldns docker image"
+dir = "zonemaster-ldns" # c'est pas tot d'avoir le repertoire en dur
+run = "make docker-build"
+depends = ["build:ldns"]
+
+[tasks."docker:engine"]
+description = "build zonemaster-engine docker image"
+dir = "zonemaster-engine" # c'est pas tot d'avoir le repertoire en dur
+run = "make docker-build"
+depends = ["build:engine"]
+
+[tasks."docker:cli"]
+description = "build zonemaster-cli docker image"
+dir = "zonemaster-cli" # c'est pas tot d'avoir le repertoire en dur
+run = "make docker-cli"
+depends = ["build:cli"]
+
+[tasks."docker:backend"]
+description = "build zonemaster-backend docker image"
+dir = "zonemaster-backend" # c'est pas tot d'avoir le repertoire en dur
+run = "make docker-build"
+depends = ["build:backend"]
+
+[tasks."docker:gui"]
+description = "build zonemaster-gui docker image"
+dir = "zonemaster-gui" # c'est pas tot d'avoir le repertoire en dur
+run = "make docker-build"
+depends = ["build:gui"]
+
 
 ######################## INSTALL ########################
 
