@@ -1,0 +1,139 @@
+[env]
+MISE_INSTALLS_DIR = "{{config_root}}/.mise/installs"
+PERL_CPANM_OPT = "--notest --from https://cpan.metacpan.org/"
+
+[tools]
+node = "24"
+perl = "latest"
+
+
+######################## DEPENDENCY ########################
+
+[tasks."dep:build"]
+description = "Perl dependency for build tasks"
+run = "cpanm inc::Module::Install Devel::CheckLib ExtUtils::PkgConfig Module::Install::XSUtil"
+
+
+######################## CLONE ########################
+
+[tasks.clone]
+description = "clone all zonemaster's repos, with develop branch"
+depends = ["clone:ldns","clone:engine","clone:cli","clone:backend","clone:gui"]
+
+[tasks."clone:ldns"]
+description = "clone zonemaster-ldns repo, with develop branch"
+run = "git clone -b develop https://github.com/zonemaster/zonemaster-ldns.git"
+# build dep    cpanm inc::Module::Install Devel::CheckLib ExtUtils::PkgConfig Module::Install::XSUtil
+	
+[tasks."clone:engine"]
+description = "clone zonemaster-engine repo, with develop branch"
+run = "git clone -b develop https://github.com/zonemaster/zonemaster-engine.git"
+
+[tasks."clone:cli"]
+description = "clone zonemaster-cli repo, with develop branch"
+run = "git clone -b develop https://github.com/zonemaster/zonemaster-cli.git"
+
+[tasks."clone:backend"]
+description = "clone zonemaster-backend repo, with develop branch"
+run = "git clone -b develop https://github.com/zonemaster/zonemaster-backend.git"
+
+[tasks."clone:gui"]
+description = "clone zonemaster-gui repo, with develop branch"
+run = "git clone -b develop https://github.com/zonemaster/zonemaster-gui.git"
+
+
+######################## BUILD ########################
+
+[tasks."build"]
+# doesnt work because it is interactif
+description = "build all zonemaster repos #WARNING DOESNT WORK FOR NOW"
+depends = ["build:ldns","build:engine","build:cli","build:backend","build:gui"]
+
+[tasks."build:ldns"]
+description = "build zonemaster-ldns"
+dir = "zonemaster-ldns" # c'est pas tot d'avoir le repertoire en dur
+run = [ "perl Makefile.PL",
+       "make",
+        "make all",
+        "make dist"
+        ]
+depends = ["dep:build"]
+
+[tasks."build:engine"]
+description = "build zonemaster-engine"
+dir = "zonemaster-engine" # c'est pas tot d'avoir le repertoire en dur
+run = [ "perl Makefile.PL",
+        "make",
+        "make all",
+        "make dist"
+        ]
+depends = ["dep:build"]
+
+[tasks."build:cli"]
+description = "build zonemaster-cli"
+dir = "zonemaster-cli" # c'est pas tot d'avoir le repertoire en dur
+run = [ "perl Makefile.PL",
+        "make",
+        "make all",
+        "make dist"
+        ]
+depends = ["dep:build"]
+
+[tasks."build:backend"]
+description = "build zonemaster-backend"
+dir = "zonemaster-backend" # c'est pas tot d'avoir le repertoire en dur
+run = [ "perl Makefile.PL",
+        "make",
+        "make all",
+        "make dist"
+        ]
+depends = ["dep:build"]
+
+[tasks."build:gui"]
+description = "build zonemaster-gui"
+dir = "zonemaster-gui" # c'est pas tot d'avoir le repertoire en dur
+run = [ "npm install",
+	"npm run release"
+        ]
+
+
+######################## INSTALL ########################
+
+[tasks."install"]
+description = "install zonemaster-[ldns,engine,cli,backend] inside mise"
+depends = ["install:ldns","install:engine","install:cli","install:backend"]
+
+[tasks."install:ldns"]
+description = "install zonemaster-ldns inside mise"
+run = "cpanm zonemaster-ldns/Zonemaster-*.tar.gz"
+
+[tasks."install:engine"]
+description = "install zonemaster-engine inside mise"
+run = "cpanm zonemaster-engine/Zonemaster-*.tar.gz"
+
+[tasks."install:cli"]
+description = "install zonemaster-cli inside mise"
+run = "cpanm zonemaster-cli/Zonemaster-*.tar.gz"
+
+[tasks."install:backend"]
+description = "install zonemaster-backend inside mise"
+run = "cpanm zonemaster-backend/Zonemaster-*.tar.gz"
+
+
+######################## SANITY CHECK ########################
+
+[tasks.sanitycheck]
+description = "run sanity check for ldns, engine, cli"
+depends = ["sanitycheck:ldns","sanitycheck:engine","sanitycheck:cli"]
+
+[tasks."sanitycheck:ldns"]
+description = "run sanity check ldns"
+run = "perl -MZonemaster::LDNS -E 'say Zonemaster::LDNS->new(\"8.8.8.8\")->query('zonemaster.net')->string'"
+
+[tasks."sanitycheck:engine"]
+description = "run sanity check engine"
+run = "time perl -MZonemaster::Engine -E 'say join \"\n\", Zonemaster::Engine->test_module(\"BASIC\", \"zonemaster.net\")'"
+
+[tasks."sanitycheck:cli"]
+description = "run sanity check list"
+run = "zonemaster-cli --test basic zonemaster.net"
