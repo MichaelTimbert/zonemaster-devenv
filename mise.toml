@@ -137,3 +137,15 @@ run = "time perl -MZonemaster::Engine -E 'say join \"\n\", Zonemaster::Engine->t
 [tasks."sanitycheck:cli"]
 description = "run sanity check list"
 run = "zonemaster-cli --test basic zonemaster.net"
+
+
+######################## OTHERS ########################
+
+[tasks.setup]
+description = "setup all the things !!!"
+run = [	"mise install",
+	"mise dep:build",
+	"mise clone",
+	"mise build",
+	"mise run install"
+	]
