@@ -138,7 +138,10 @@ depends = ["build:gui"]
 
 [tasks."install"]
 description = "install zonemaster-[ldns,engine,cli,backend] inside mise"
-depends = ["install:ldns","install:engine","install:cli","install:backend"]
+run = [ "mise install:ldns",
+	"mise install:engine",
+	"mise install:cli",
+	"mise install:backend"]
 
 [tasks."install:ldns"]
 description = "install zonemaster-ldns inside mise"
