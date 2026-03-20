@@ -118,7 +118,7 @@ depends = ["build:engine"]
 [tasks."docker:cli"]
 description = "build zonemaster-cli docker image"
 dir = "zonemaster-cli" # c'est pas tot d'avoir le repertoire en dur
-run = "make docker-cli"
+run = "make docker-build"
 depends = ["build:cli"]
 
 [tasks."docker:backend"]
