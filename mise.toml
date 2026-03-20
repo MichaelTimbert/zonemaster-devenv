@@ -53,7 +53,7 @@ depends = ["build:ldns","build:engine","build:cli","build:backend","build:gui"]
 description = "build zonemaster-ldns"
 dir = "zonemaster-ldns" # c'est pas tot d'avoir le repertoire en dur
 run = [ "perl Makefile.PL",
-       "make",
+        "make",
         "make all",
         "make dist"
         ]
