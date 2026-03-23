@@ -3,6 +3,7 @@ MISE_INSTALLS_DIR = "{{config_root}}/.mise/installs"
 PERL_CPANM_OPT = "--notest --from https://cpan.metacpan.org/"
 
 [tools]
+act = "latest"
 node = "24"
 perl = "latest"
 
@@ -178,6 +179,12 @@ run = "time perl -MZonemaster::Engine -E 'say join \"\n\", Zonemaster::Engine->t
 description = "run sanity check list"
 run = "zonemaster-cli --test basic zonemaster.net"
 
+
+######################## CI ########################
+[tasks."ci"]
+dir = "{{cwd}}"
+description = "run the CI"
+run = "act"
 
 ######################## OTHERS ########################
 

@@ -122,6 +122,21 @@ Includes quick Perl and CLI tests for LDNS, Engine, and CLI modules.
 
 ***
 
+### 7. CI
+
+You can run the github CI localy using `act`
+
+```bash
+mise run ci
+```
+
+> [!NOTE]
+> `act` uses different Docker image that doesn't work with Zonemaster CI.
+> You need to add `apt update` to the CI for it to work.
+
+
+***
+
 ## All-in-One Setup Command
 
 If you want everything to be installed, built, and tested in one go:
