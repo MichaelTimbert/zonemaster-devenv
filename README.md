@@ -134,6 +134,22 @@ mise run ci
 > `act` uses different Docker image that doesn't work with Zonemaster CI.
 > You need to add `apt update` to the CI for it to work.
 
+***
+
+## Helper
+
+### Status
+
+Display the branch and status of all repositories.
+
+```bash
+./zonemaster-backend/ 	 develop 	 clean
+./zonemaster-cli/ 	 develop 	 clean
+./zonemaster-engine/ 	 develop 	 clean
+./zonemaster-gui/ 	 develop 	 clean
+./zonemaster-ldns/ 	 develop 	 clean
+```
+
 
 ***
 
