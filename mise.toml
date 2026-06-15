@@ -102,7 +102,11 @@ run = [ "npm install",
 [tasks."docker"]
 # doesnt work because it is interactif
 description = "build all docker images"
-depends = ["docker:ldns","docker:engine","docker:cli","docker:backend","docker:gui"]
+run = [ "mise docker:ldns",
+	"mise docker:engine",
+	"mise docker:cli",
+	"mise docker:backend",
+	"mise docker:gui"]
 
 [tasks."docker:ldns"]
 description = "build zonemaster-ldns docker image"
